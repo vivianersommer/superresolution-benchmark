@@ -1,0 +1,37 @@
+Análise de sensibilidade do poder (item 5.5)
+============================================================
+Desenho: teste pareado bilateral, n = 100 pares.
+α corrigido no pior caso de Holm: 0.05 / 8 = 0.00625.
+Poder alvo: 80%.
+
+Teste t pareado: menor efeito detectável dz = 0.365.
+Wilcoxon (eficiência relativa assintótica ≈ 0.955 em relação ao t, sob normalidade):
+  n efetivo ≈ 95.5 -> dz mínimo ≈ 0.373.
+  (Para distribuições de caudas pesadas, a ERA do Wilcoxon pode ser > 1; o valor acima é
+   o caso normal, conservador para o Wilcoxon.)
+
+Comparação com os efeitos observados na H2 (dz = média da diferença / DP da diferença):
+  psnr_y  2x edsr - bicubic     dz = +2.344 (acima do mínimo detectável)
+  psnr_y  2x espcn - bicubic    dz = +1.218 (acima do mínimo detectável)
+  psnr_y  2x fsrcnn - bicubic   dz = +1.498 (acima do mínimo detectável)
+  psnr_y  2x lapsrn - bicubic   dz = +1.199 (acima do mínimo detectável)
+  psnr_y  4x edsr - bicubic     dz = +1.643 (acima do mínimo detectável)
+  psnr_y  4x espcn - bicubic    dz = -0.165 (ABAIXO do mínimo detectável)
+  psnr_y  4x fsrcnn - bicubic   dz = -0.219 (ABAIXO do mínimo detectável)
+  psnr_y  4x lapsrn - bicubic   dz = +0.445 (acima do mínimo detectável)
+  ssim_y  2x edsr - bicubic     dz = +1.640 (acima do mínimo detectável)
+  ssim_y  2x espcn - bicubic    dz = +1.058 (acima do mínimo detectável)
+  ssim_y  2x fsrcnn - bicubic   dz = +1.411 (acima do mínimo detectável)
+  ssim_y  2x lapsrn - bicubic   dz = +0.676 (acima do mínimo detectável)
+  ssim_y  4x edsr - bicubic     dz = +1.767 (acima do mínimo detectável)
+  ssim_y  4x espcn - bicubic    dz = -0.512 (acima do mínimo detectável)
+  ssim_y  4x fsrcnn - bicubic   dz = -0.806 (acima do mínimo detectável)
+  ssim_y  4x lapsrn - bicubic   dz = -0.001 (ABAIXO do mínimo detectável)
+  lpips   2x edsr - bicubic     dz = -1.680 (acima do mínimo detectável)
+  lpips   2x espcn - bicubic    dz = -2.490 (acima do mínimo detectável)
+  lpips   2x fsrcnn - bicubic   dz = -2.622 (acima do mínimo detectável)
+  lpips   2x lapsrn - bicubic   dz = -2.329 (acima do mínimo detectável)
+  lpips   4x edsr - bicubic     dz = -2.295 (acima do mínimo detectável)
+  lpips   4x espcn - bicubic    dz = -3.010 (acima do mínimo detectável)
+  lpips   4x fsrcnn - bicubic   dz = -3.443 (acima do mínimo detectável)
+  lpips   4x lapsrn - bicubic   dz = -2.763 (acima do mínimo detectável)

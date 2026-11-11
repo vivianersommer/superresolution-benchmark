@@ -1,0 +1,477 @@
+Robustez: ART implementada em Python.
+1) ART: resposta alinhada para a interação (Wobbrock et al., 2011), postos médios sobre
+   os 1.400 valores, mesmo modelo misto do principal, (1|imagem) + (1|imagem:escala), e,
+   como sensibilidade, só (1|imagem); só o termo de interação é interpretado. Teste: LRT
+   (ajustes ML) com vs. sem interação e Wald conjunto; contrastes do ajuste REML.
+2) Postos dentro de cada imagem × escala (1 = pior, 7 = melhor, no sentido da métrica).
+   O modelo misto é degenerado aqui (variância de imagem = 0), então usa-se OLS com EP
+   robusto agrupado por imagem; o teste principal é o Wald conjunto (o LRT do OLS supõe
+   independência e é só informativo).
+3) Contrastes não paramétricos de interação: para cada método, Wilcoxon pareado de
+   d_i = (método − bicúbica)_4× − (método − bicúbica)_2× por imagem, Holm por métrica.
+
+
+====================================================================================================
+PSNR-Y (dB)
+====================================================================================================
+
+--- ART|principal ---
+                       Mixed Linear Model Regression Results
+====================================================================================
+Model:                      MixedLM          Dependent Variable:          y         
+No. Observations:           1400             Method:                      ML        
+No. Groups:                 100              Scale:                       1085.8417 
+Min. group size:            14               Log-Likelihood:              -7434.9912
+Max. group size:            14               Converged:                   Yes       
+Mean group size:            14.0                                                    
+------------------------------------------------------------------------------------
+                                     Coef.    Std.Err.    z    P>|z|  [0.025  0.975]
+------------------------------------------------------------------------------------
+Intercept                             682.480   40.383  16.900 0.000 603.331 761.629
+C(method)[T.edsr]                      33.250    4.660   7.135 0.000  24.116  42.384
+C(method)[T.espcn]                     31.950    4.660   6.856 0.000  22.816  41.084
+C(method)[T.fsrcnn]                    38.410    4.660   8.242 0.000  29.276  47.544
+C(method)[T.lapsrn]                    13.350    4.660   2.865 0.004   4.216  22.484
+C(method)[T.nearest]                    7.560    4.660   1.622 0.105  -1.574  16.694
+C(method)[T.lanczos]                    3.180    4.660   0.682 0.495  -5.954  12.314
+C(scale)[T.4]                          33.040   10.916   3.027 0.002  11.645  54.435
+C(method)[T.edsr]:C(scale)[T.4]       -66.100    6.590 -10.030 0.000 -79.017 -53.183
+C(method)[T.espcn]:C(scale)[T.4]      -62.880    6.590  -9.541 0.000 -75.797 -49.963
+C(method)[T.fsrcnn]:C(scale)[T.4]     -74.800    6.590 -11.350 0.000 -87.717 -61.883
+C(method)[T.lapsrn]:C(scale)[T.4]     -27.240    6.590  -4.133 0.000 -40.157 -14.323
+C(method)[T.nearest]:C(scale)[T.4]      5.050    6.590   0.766 0.444  -7.867  17.967
+C(method)[T.lanczos]:C(scale)[T.4]     -8.430    6.590  -1.279 0.201 -21.347   4.487
+image Var                          157117.944  712.303                              
+img_scale Var                        4872.120   22.456                              
+====================================================================================
+
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 6.06e-06
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 4.17e-05
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 3.81e-05
+Interação: LRT LR = 282.149, gl = 6, p = 5.45e-58; Wald χ² = 318.079, p = 1.09e-65
+
+--- ART|sensibilidade ---
+                       Mixed Linear Model Regression Results
+===================================================================================
+Model:                     MixedLM          Dependent Variable:          y         
+No. Observations:          1400             Method:                      ML        
+No. Groups:                100              Scale:                       3709.3166 
+Min. group size:           14               Log-Likelihood:              -8059.5893
+Max. group size:           14               Converged:                   Yes       
+Mean group size:           14.0                                                    
+-----------------------------------------------------------------------------------
+                                     Coef.    Std.Err.   z    P>|z|  [0.025  0.975]
+-----------------------------------------------------------------------------------
+Intercept                             682.480   40.382 16.900 0.000 603.332 761.628
+C(method)[T.edsr]                      33.250    8.613  3.860 0.000  16.369  50.131
+C(method)[T.espcn]                     31.950    8.613  3.709 0.000  15.069  48.831
+C(method)[T.fsrcnn]                    38.410    8.613  4.459 0.000  21.529  55.291
+C(method)[T.lapsrn]                    13.350    8.613  1.550 0.121  -3.531  30.231
+C(method)[T.nearest]                    7.560    8.613  0.878 0.380  -9.321  24.441
+C(method)[T.lanczos]                    3.180    8.613  0.369 0.712 -13.701  20.061
+C(scale)[T.4]                          33.040    8.613  3.836 0.000  16.159  49.921
+C(method)[T.edsr]:C(scale)[T.4]       -66.100   12.181 -5.427 0.000 -89.974 -42.226
+C(method)[T.espcn]:C(scale)[T.4]      -62.880   12.181 -5.162 0.000 -86.754 -39.006
+C(method)[T.fsrcnn]:C(scale)[T.4]     -74.800   12.181 -6.141 0.000 -98.674 -50.926
+C(method)[T.lapsrn]:C(scale)[T.4]     -27.240   12.181 -2.236 0.025 -51.114  -3.366
+C(method)[T.nearest]:C(scale)[T.4]      5.050   12.181  0.415 0.678 -18.824  28.924
+C(method)[T.lanczos]:C(scale)[T.4]     -8.430   12.181 -0.692 0.489 -32.304  15.444
+image Var                          159364.550  384.657                             
+===================================================================================
+
+Ajuste ML completo: otimizador cg; diferença máx. de logLik entre otimizadores convergidos = 2.38e-06
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 3.59e-06
+Ajuste REML completo: otimizador cg; diferença máx. de logLik entre otimizadores convergidos = 2.52e-06
+Interação: LRT LR = 89.929, gl = 6, p = 3.13e-17; Wald χ² = 93.113, p = 6.83e-18
+
+--- postos dentro de imagem×escala ---
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.843
+Model:                            OLS   Adj. R-squared:                  0.842
+Method:                 Least Squares   F-statistic:                     3514.
+Date:                Thu, 29 Oct 2026   Prob (F-statistic):          4.70e-123
+Time:                        22:11:30   Log-Likelihood:                -1660.3
+No. Observations:                1400   AIC:                             3349.
+Df Residuals:                    1386   BIC:                             3422.
+Df Model:                          13                                         
+Covariance Type:              cluster                                         
+======================================================================================================
+                                         coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+Intercept                              2.1300      0.057     37.699      0.000       2.019       2.241
+C(method)[T.edsr]                      4.8200      0.079     61.239      0.000       4.666       4.974
+C(method)[T.espcn]                     2.7900      0.112     24.956      0.000       2.571       3.009
+C(method)[T.fsrcnn]                    3.6700      0.118     31.154      0.000       3.439       3.901
+C(method)[T.lapsrn]                    1.6000      0.094     17.087      0.000       1.416       1.784
+C(method)[T.nearest]                  -1.0900      0.050    -21.948      0.000      -1.187      -0.993
+C(method)[T.lanczos]                   1.3000      0.068     19.192      0.000       1.167       1.433
+C(scale)[T.4]                          1.4700      0.128     11.477      0.000       1.219       1.721
+C(method)[T.edsr]:C(scale)[T.4]       -1.5300      0.141    -10.853      0.000      -1.806      -1.254
+C(method)[T.espcn]:C(scale)[T.4]      -3.2100      0.220    -14.624      0.000      -3.640      -2.780
+C(method)[T.fsrcnn]:C(scale)[T.4]     -4.2400      0.209    -20.244      0.000      -4.650      -3.830
+C(method)[T.lapsrn]:C(scale)[T.4]     -0.0500      0.191     -0.262      0.793      -0.424       0.324
+C(method)[T.nearest]:C(scale)[T.4]    -1.5100      0.127    -11.935      0.000      -1.758      -1.262
+C(method)[T.lanczos]:C(scale)[T.4]     0.2500      0.112      2.235      0.025       0.031       0.469
+==============================================================================
+Omnibus:                      105.756   Durbin-Watson:                   2.010
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              529.611
+Skew:                          -0.086   Prob(JB):                    9.92e-116
+Kurtosis:                       6.008   Cond. No.                         20.6
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (CRV1)
+Interação: LRT LR = 981.225, gl = 6, p = 1.03e-208; Wald χ² = 2930.538, p = 0
+
+====================================================================================================
+SSIM-Y
+====================================================================================================
+
+--- ART|principal ---
+                       Mixed Linear Model Regression Results
+====================================================================================
+Model:                      MixedLM          Dependent Variable:          y         
+No. Observations:           1400             Method:                      ML        
+No. Groups:                 100              Scale:                       988.4598  
+Min. group size:            14               Log-Likelihood:              -7430.2135
+Max. group size:            14               Converged:                   Yes       
+Mean group size:            14.0                                                    
+------------------------------------------------------------------------------------
+                                     Coef.    Std.Err.    z    P>|z|  [0.025  0.975]
+------------------------------------------------------------------------------------
+Intercept                             665.170   40.327  16.494 0.000 586.130 744.210
+C(method)[T.edsr]                      -4.340    4.446  -0.976 0.329 -13.055   4.375
+C(method)[T.espcn]                     23.960    4.446   5.389 0.000  15.245  32.675
+C(method)[T.fsrcnn]                    32.990    4.446   7.420 0.000  24.275  41.705
+C(method)[T.lapsrn]                     7.300    4.446   1.642 0.101  -1.415  16.015
+C(method)[T.nearest]                   42.130    4.446   9.475 0.000  33.415  50.845
+C(method)[T.lanczos]                   -0.060    4.446  -0.013 0.989  -8.775   8.655
+C(scale)[T.4]                          68.150   17.565   3.880 0.000  33.723 102.577
+C(method)[T.edsr]:C(scale)[T.4]         4.510    6.288   0.717 0.473  -7.814  16.834
+C(method)[T.espcn]:C(scale)[T.4]      -37.650    6.288  -5.988 0.000 -49.974 -25.326
+C(method)[T.fsrcnn]:C(scale)[T.4]     -56.400    6.288  -8.970 0.000 -68.724 -44.076
+C(method)[T.lapsrn]:C(scale)[T.4]      -7.420    6.288  -1.180 0.238 -19.744   4.904
+C(method)[T.nearest]:C(scale)[T.4]    -87.380    6.288 -13.896 0.000 -99.704 -75.056
+C(method)[T.lanczos]:C(scale)[T.4]     -2.050    6.288  -0.326 0.744 -14.374  10.274
+image Var                          147204.436  721.491                              
+img_scale Var                       14437.787   68.256                              
+====================================================================================
+
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 5.75e-06
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 1.35e-05
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 7.7e-06
+Interação: LRT LR = 323.885, gl = 6, p = 6.2e-67; Wald χ² = 371.806, p = 3.2e-77
+
+--- ART|sensibilidade ---
+                       Mixed Linear Model Regression Results
+====================================================================================
+Model:                      MixedLM          Dependent Variable:          y         
+No. Observations:           1400             Method:                      ML        
+No. Groups:                 100              Scale:                       8762.6928 
+Min. group size:            14               Log-Likelihood:              -8616.7311
+Max. group size:            14               Converged:                   Yes       
+Mean group size:            14.0                                                    
+------------------------------------------------------------------------------------
+                                     Coef.    Std.Err.   z    P>|z|  [0.025   0.975]
+------------------------------------------------------------------------------------
+Intercept                             665.170   40.328 16.494 0.000  586.129 744.211
+C(method)[T.edsr]                      -4.340   13.238 -0.328 0.743  -30.287  21.607
+C(method)[T.espcn]                     23.960   13.238  1.810 0.070   -1.987  49.907
+C(method)[T.fsrcnn]                    32.990   13.238  2.492 0.013    7.043  58.937
+C(method)[T.lapsrn]                     7.300   13.238  0.551 0.581  -18.647  33.247
+C(method)[T.nearest]                   42.130   13.238  3.182 0.001   16.183  68.077
+C(method)[T.lanczos]                   -0.060   13.238 -0.005 0.996  -26.007  25.887
+C(scale)[T.4]                          68.150   13.238  5.148 0.000   42.203  94.097
+C(method)[T.edsr]:C(scale)[T.4]         4.510   18.722  0.241 0.810  -32.184  41.204
+C(method)[T.espcn]:C(scale)[T.4]      -37.650   18.722 -2.011 0.044  -74.344  -0.956
+C(method)[T.fsrcnn]:C(scale)[T.4]     -56.400   18.722 -3.013 0.003  -93.094 -19.706
+C(method)[T.lapsrn]:C(scale)[T.4]      -7.420   18.722 -0.396 0.692  -44.114  29.274
+C(method)[T.nearest]:C(scale)[T.4]    -87.380   18.722 -4.667 0.000 -124.074 -50.686
+C(method)[T.lanczos]:C(scale)[T.4]     -2.050   18.722 -0.109 0.913  -38.744  34.644
+image Var                          153870.265  242.221                              
+====================================================================================
+
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 2.48e-06
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 1.08e-06
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 2.89e-06
+Interação: LRT LR = 41.279, gl = 6, p = 2.55e-07; Wald χ² = 41.941, p = 1.89e-07
+
+--- postos dentro de imagem×escala ---
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.808
+Model:                            OLS   Adj. R-squared:                  0.806
+Method:                 Least Squares   F-statistic:                     2503.
+Date:                Thu, 29 Oct 2026   Prob (F-statistic):          3.81e-117
+Time:                        22:11:36   Log-Likelihood:                -1802.9
+No. Observations:                1400   AIC:                             3634.
+Df Residuals:                    1386   BIC:                             3707.
+Df Model:                          13                                         
+Covariance Type:              cluster                                         
+======================================================================================================
+                                         coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+Intercept                              2.4400      0.084     29.167      0.000       2.276       2.604
+C(method)[T.edsr]                      4.4800      0.108     41.380      0.000       4.268       4.692
+C(method)[T.espcn]                     2.0800      0.152     13.722      0.000       1.783       2.377
+C(method)[T.fsrcnn]                    3.1200      0.164     19.069      0.000       2.799       3.441
+C(method)[T.lapsrn]                    0.7400      0.147      5.019      0.000       0.451       1.029
+C(method)[T.nearest]                  -1.3700      0.090    -15.235      0.000      -1.546      -1.194
+C(method)[T.lanczos]                   1.8700      0.092     20.290      0.000       1.689       2.051
+C(scale)[T.4]                          1.5700      0.118     13.308      0.000       1.339       1.801
+C(method)[T.edsr]:C(scale)[T.4]       -1.5700      0.128    -12.273      0.000      -1.821      -1.319
+C(method)[T.espcn]:C(scale)[T.4]      -2.7000      0.197    -13.735      0.000      -3.085      -2.315
+C(method)[T.fsrcnn]:C(scale)[T.4]     -4.6300      0.203    -22.776      0.000      -5.028      -4.232
+C(method)[T.lapsrn]:C(scale)[T.4]      0.1000      0.174      0.575      0.566      -0.241       0.441
+C(method)[T.nearest]:C(scale)[T.4]    -1.5900      0.120    -13.299      0.000      -1.824      -1.356
+C(method)[T.lanczos]:C(scale)[T.4]    -0.6000      0.111     -5.424      0.000      -0.817      -0.383
+==============================================================================
+Omnibus:                       70.313   Durbin-Watson:                   1.951
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              214.783
+Skew:                          -0.164   Prob(JB):                     2.29e-47
+Kurtosis:                       4.890   Cond. No.                         20.6
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (CRV1)
+Interação: LRT LR = 808.480, gl = 6, p = 2.27e-171; Wald χ² = 1740.894, p = 0
+
+====================================================================================================
+LPIPS
+====================================================================================================
+
+--- ART|principal ---
+                        Mixed Linear Model Regression Results
+=====================================================================================
+Model:                       MixedLM          Dependent Variable:          y         
+No. Observations:            1400             Method:                      ML        
+No. Groups:                  100              Scale:                       12320.2619
+Min. group size:             14               Log-Likelihood:              -8895.0413
+Max. group size:             14               Converged:                   Yes       
+Mean group size:             14.0                                                    
+-------------------------------------------------------------------------------------
+                                     Coef.    Std.Err.   z    P>|z|  [0.025   0.975] 
+-------------------------------------------------------------------------------------
+Intercept                             658.140   40.211 16.367 0.000  579.329  736.951
+C(method)[T.edsr]                      13.840   15.697  0.882 0.378  -16.926   44.606
+C(method)[T.espcn]                     70.050   15.697  4.463 0.000   39.284  100.816
+C(method)[T.fsrcnn]                   115.050   15.697  7.329 0.000   84.284  145.816
+C(method)[T.lapsrn]                    68.090   15.697  4.338 0.000   37.324   98.856
+C(method)[T.nearest]                   -3.720   15.697 -0.237 0.813  -34.486   27.046
+C(method)[T.lanczos]                   10.100   15.697  0.643 0.520  -20.666   40.866
+C(scale)[T.4]                          78.550   18.041  4.354 0.000   43.189  113.911
+C(method)[T.edsr]:C(scale)[T.4]       -30.020   22.199 -1.352 0.176  -73.530   13.490
+C(method)[T.espcn]:C(scale)[T.4]     -128.760   22.199 -5.800 0.000 -172.270  -85.250
+C(method)[T.fsrcnn]:C(scale)[T.4]    -219.030   22.199 -9.867 0.000 -262.540 -175.520
+C(method)[T.lapsrn]:C(scale)[T.4]    -124.160   22.199 -5.593 0.000 -167.670  -80.650
+C(method)[T.nearest]:C(scale)[T.4]     19.990   22.199  0.900 0.368  -23.520   63.500
+C(method)[T.lanczos]:C(scale)[T.4]    -21.650   22.199 -0.975 0.329  -65.160   21.860
+image Var                          145414.342  196.376                               
+img_scale Var                        3954.522    7.578                               
+=====================================================================================
+
+Ajuste ML completo: otimizador cg; diferença máx. de logLik entre otimizadores convergidos = 4.16
+Ajuste ML aditivo: otimizador cg; diferença máx. de logLik entre otimizadores convergidos = 1.11e-06
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 3.5e-07
+Interação: LRT LR = 171.768, gl = 6, p = 1.9e-34; Wald χ² = 184.670, p = 3.45e-37
+
+--- ART|sensibilidade ---
+                        Mixed Linear Model Regression Results
+=====================================================================================
+Model:                       MixedLM          Dependent Variable:          y         
+No. Observations:            1400             Method:                      ML        
+No. Groups:                  100              Scale:                       14449.6160
+Min. group size:             14               Log-Likelihood:              -8939.7811
+Max. group size:             14               Converged:                   Yes       
+Mean group size:             14.0                                                    
+-------------------------------------------------------------------------------------
+                                     Coef.    Std.Err.   z    P>|z|  [0.025   0.975] 
+-------------------------------------------------------------------------------------
+Intercept                             658.140   40.210 16.367 0.000  579.329  736.951
+C(method)[T.edsr]                      13.840   17.000  0.814 0.416  -19.479   47.159
+C(method)[T.espcn]                     70.050   17.000  4.121 0.000   36.731  103.369
+C(method)[T.fsrcnn]                   115.050   17.000  6.768 0.000   81.731  148.369
+C(method)[T.lapsrn]                    68.090   17.000  4.005 0.000   34.771  101.409
+C(method)[T.nearest]                   -3.720   17.000 -0.219 0.827  -37.039   29.599
+C(method)[T.lanczos]                   10.100   17.000  0.594 0.552  -23.219   43.419
+C(scale)[T.4]                          78.550   17.000  4.621 0.000   45.231  111.869
+C(method)[T.edsr]:C(scale)[T.4]       -30.020   24.041 -1.249 0.212  -77.140   17.100
+C(method)[T.espcn]:C(scale)[T.4]     -128.760   24.041 -5.356 0.000 -175.880  -81.640
+C(method)[T.fsrcnn]:C(scale)[T.4]    -219.030   24.041 -9.111 0.000 -266.150 -171.910
+C(method)[T.lapsrn]:C(scale)[T.4]    -124.160   24.041 -5.164 0.000 -171.280  -77.040
+C(method)[T.nearest]:C(scale)[T.4]     19.990   24.041  0.831 0.406  -27.130   67.110
+C(method)[T.lanczos]:C(scale)[T.4]    -21.650   24.041 -0.901 0.368  -68.770   25.470
+image Var                          147237.106  181.022                               
+=====================================================================================
+
+Ajuste ML completo: otimizador cg; diferença máx. de logLik entre otimizadores convergidos = 2.3e-06
+Ajuste ML aditivo: otimizador lbfgs; diferença máx. de logLik entre otimizadores convergidos = 5.4e-07
+Ajuste REML completo: otimizador cg; diferença máx. de logLik entre otimizadores convergidos = 2.41e-06
+Interação: LRT LR = 148.627, gl = 6, p = 1.51e-29; Wald χ² = 157.457, p = 2.05e-31
+
+--- postos dentro de imagem×escala ---
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.743
+Model:                            OLS   Adj. R-squared:                  0.740
+Method:                 Least Squares   F-statistic:                     1453.
+Date:                Thu, 29 Oct 2026   Prob (F-statistic):          1.65e-105
+Time:                        22:11:41   Log-Likelihood:                -2007.2
+No. Observations:                1400   AIC:                             4042.
+Df Residuals:                    1386   BIC:                             4116.
+Df Model:                          13                                         
+Covariance Type:              cluster                                         
+======================================================================================================
+                                         coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------------------------------
+Intercept                              1.8000      0.047     38.006      0.000       1.707       1.893
+C(method)[T.edsr]                      2.8300      0.146     19.335      0.000       2.543       3.117
+C(method)[T.espcn]                     2.2900      0.117     19.549      0.000       2.060       2.520
+C(method)[T.fsrcnn]                    3.3900      0.132     25.615      0.000       3.131       3.649
+C(method)[T.lapsrn]                    2.5700      0.087     29.486      0.000       2.399       2.741
+C(method)[T.nearest]                   4.8000      0.140     34.307      0.000       4.526       5.074
+C(method)[T.lanczos]                  -0.4800      0.099     -4.828      0.000      -0.675      -0.285
+C(scale)[T.4]                       1.332e-15      0.057   2.33e-14      1.000      -0.112       0.112
+C(method)[T.edsr]:C(scale)[T.4]       -1.2500      0.144     -8.651      0.000      -1.533      -0.967
+C(method)[T.espcn]:C(scale)[T.4]       0.6400      0.111      5.761      0.000       0.422       0.858
+C(method)[T.fsrcnn]:C(scale)[T.4]      1.2100      0.123      9.831      0.000       0.969       1.451
+C(method)[T.lapsrn]:C(scale)[T.4]      0.4100      0.137      2.992      0.003       0.141       0.679
+C(method)[T.nearest]:C(scale)[T.4]    -1.1300      0.212     -5.327      0.000      -1.546      -0.714
+C(method)[T.lanczos]:C(scale)[T.4]     0.1200      0.098      1.222      0.222      -0.072       0.312
+==============================================================================
+Omnibus:                      303.632   Durbin-Watson:                   2.173
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):             1076.076
+Skew:                          -1.031   Prob(JB):                    2.15e-234
+Kurtosis:                       6.768   Cond. No.                         20.6
+==============================================================================
+
+Notes:
+[1] Standard Errors are robust to cluster correlation (CRV1)
+Interação: LRT LR = 219.515, gl = 6, p = 1.32e-44; Wald χ² = 257.487, p = 1.03e-52
+
+
+Resumo da interação (robustez):
+
+metric                   procedimento         LR  gl         p_LRT   wald_chi2       p_wald
+psnr_y                  ART|principal 282.149266   6  5.446156e-58  318.079434 1.089861e-65
+psnr_y              ART|sensibilidade  89.929084   6  3.134504e-17   93.112543 6.830395e-18
+psnr_y postos dentro de imagem×escala 981.225438   6 1.027594e-208 2930.538340 0.000000e+00
+ssim_y                  ART|principal 323.884955   6  6.199128e-67  371.806347 3.202531e-77
+ssim_y              ART|sensibilidade  41.278566   6  2.551852e-07   41.940947 1.888803e-07
+ssim_y postos dentro de imagem×escala 808.480022   6 2.265641e-171 1740.894029 0.000000e+00
+ lpips                  ART|principal 171.768401   6  1.896159e-34  184.670455 3.454866e-37
+ lpips              ART|sensibilidade 148.627236   6  1.509383e-29  157.456668 2.046363e-31
+ lpips postos dentro de imagem×escala 219.514940   6  1.320347e-44  257.487230 1.029263e-52
+
+Contrastes de interação por método (Holm por métrica × procedimento):
+
+metric                         modelo  method    efeito  estimativa        ep          z             p        p_holm
+psnr_y                  ART|principal    edsr interacao  -66.100000  6.623624  -9.979432  1.875377e-23  9.376886e-23
+psnr_y                  ART|principal   espcn interacao  -62.880000  6.623624  -9.493293  2.238487e-21  8.953947e-21
+psnr_y                  ART|principal  fsrcnn interacao  -74.800000  6.623624 -11.292912  1.422442e-29  8.534652e-29
+psnr_y                  ART|principal  lapsrn interacao  -27.240000  6.623624  -4.112553  3.913084e-05  1.173925e-04
+psnr_y                  ART|principal nearest interacao    5.050000  6.623624   0.762423  4.458079e-01  4.458079e-01
+psnr_y                  ART|principal lanczos interacao   -8.430000  6.623624  -1.272717  2.031184e-01  4.062368e-01
+psnr_y              ART|sensibilidade    edsr interacao  -66.100000 12.242197  -5.399358  6.687985e-08  3.343993e-07
+psnr_y              ART|sensibilidade   espcn interacao  -62.880000 12.242197  -5.136333  2.801508e-07  1.120603e-06
+psnr_y              ART|sensibilidade  fsrcnn interacao  -74.800000 12.242197  -6.110015  9.962201e-10  5.977321e-09
+psnr_y              ART|sensibilidade  lapsrn interacao  -27.240000 12.242197  -2.225091  2.607514e-02  7.822541e-02
+psnr_y              ART|sensibilidade nearest interacao    5.050000 12.242197   0.412508  6.799674e-01  9.821476e-01
+psnr_y              ART|sensibilidade lanczos interacao   -8.430000 12.242197  -0.688602  4.910738e-01  9.821476e-01
+psnr_y postos dentro de imagem×escala    edsr interacao   -1.530000  0.140970 -10.853373  1.921992e-27  5.765977e-27
+psnr_y postos dentro de imagem×escala   espcn interacao   -3.210000  0.219509 -14.623560  1.987300e-48  9.936498e-48
+psnr_y postos dentro de imagem×escala  fsrcnn interacao   -4.240000  0.209443 -20.244209  3.995434e-91  2.397261e-90
+psnr_y postos dentro de imagem×escala  lapsrn interacao   -0.050000  0.190718  -0.262167  7.931925e-01  7.931925e-01
+psnr_y postos dentro de imagem×escala nearest interacao   -1.510000  0.126516 -11.935244  7.753106e-33  3.101243e-32
+psnr_y postos dentro de imagem×escala lanczos interacao    0.250000  0.111872   2.234702  2.543692e-02  5.087384e-02
+psnr_y                       Wilcoxon    edsr        x2    0.983026       NaN  -8.678332  4.016156e-18  2.409693e-17
+psnr_y                       Wilcoxon    edsr        x4    0.395899       NaN  -8.451402  2.878242e-17  1.151297e-16
+psnr_y                       Wilcoxon    edsr interacao   -0.546388       NaN  -8.475471  2.341309e-17  9.365234e-17
+psnr_y                       Wilcoxon   espcn        x2    0.483478       NaN  -8.196966  2.465293e-16  5.094930e-16
+psnr_y                       Wilcoxon   espcn        x4   -0.069478       NaN  -2.097378  3.596011e-02  3.596011e-02
+psnr_y                       Wilcoxon   espcn interacao   -0.539271       NaN  -8.554552  1.183272e-17  5.916358e-17
+psnr_y                       Wilcoxon  fsrcnn        x2    0.581954       NaN  -8.241665  1.698310e-16  5.094930e-16
+psnr_y                       Wilcoxon  fsrcnn        x4   -0.076566       NaN  -2.448087  1.436169e-02  2.872337e-02
+psnr_y                       Wilcoxon  fsrcnn interacao   -0.640793       NaN  -8.681770  3.896560e-18  2.337936e-17
+psnr_y                       Wilcoxon  lapsrn        x2    0.314418       NaN  -8.097255  5.621316e-16  5.621316e-16
+psnr_y                       Wilcoxon  lapsrn        x4    0.065011       NaN  -3.995333  6.460326e-05  1.938098e-04
+psnr_y                       Wilcoxon  lapsrn interacao   -0.234593       NaN  -8.251980  1.557920e-16  4.673760e-16
+psnr_y                       Wilcoxon nearest        x2   -0.968567       NaN  -8.674894  4.139374e-18  2.409693e-17
+psnr_y                       Wilcoxon nearest        x4   -1.004452       NaN  -8.681770  3.896560e-18  2.337936e-17
+psnr_y                       Wilcoxon nearest interacao    0.003305       NaN  -0.147848  8.824628e-01  8.824628e-01
+psnr_y                       Wilcoxon lanczos        x2    0.174567       NaN  -8.657702  4.813702e-18  2.409693e-17
+psnr_y                       Wilcoxon lanczos        x4    0.094514       NaN  -8.681770  3.896560e-18  2.337936e-17
+psnr_y                       Wilcoxon lanczos interacao   -0.072599       NaN  -8.014735  1.103745e-15  2.207491e-15
+ssim_y                  ART|principal    edsr interacao    4.510000  6.319634   0.713649  4.754443e-01  9.508886e-01
+ssim_y                  ART|principal   espcn interacao  -37.650000  6.319634  -5.957624  2.559319e-09  1.023728e-08
+ssim_y                  ART|principal  fsrcnn interacao  -56.400000  6.319634  -8.924568  4.474428e-19  2.237214e-18
+ssim_y                  ART|principal  lapsrn interacao   -7.420000  6.319634  -1.174119  2.403475e-01  7.210425e-01
+ssim_y                  ART|principal nearest interacao  -87.380000  6.319634 -13.826751  1.757833e-43  1.054700e-42
+ssim_y                  ART|principal lanczos interacao   -2.050000  6.319634  -0.324386  7.456459e-01  9.508886e-01
+ssim_y              ART|sensibilidade    edsr interacao    4.510000 18.816168   0.239687  8.105725e-01  1.000000e+00
+ssim_y              ART|sensibilidade   espcn interacao  -37.650000 18.816168  -2.000939  4.539899e-02  1.815960e-01
+ssim_y              ART|sensibilidade  fsrcnn interacao  -56.400000 18.816168  -2.997422  2.722734e-03  1.361367e-02
+ssim_y              ART|sensibilidade  lapsrn interacao   -7.420000 18.816168  -0.394342  6.933288e-01  1.000000e+00
+ssim_y              ART|sensibilidade nearest interacao  -87.380000 18.816168  -4.643879  3.419287e-06  2.051572e-05
+ssim_y              ART|sensibilidade lanczos interacao   -2.050000 18.816168  -0.108949  9.132431e-01  1.000000e+00
+ssim_y postos dentro de imagem×escala    edsr interacao   -1.570000  0.127927 -12.272667  1.269996e-34  3.809987e-34
+ssim_y postos dentro de imagem×escala   espcn interacao   -2.700000  0.196575 -13.735185  6.249620e-43  3.124810e-42
+ssim_y postos dentro de imagem×escala  fsrcnn interacao   -4.630000  0.203284 -22.776012 7.928803e-115 4.757282e-114
+ssim_y postos dentro de imagem×escala  lapsrn interacao    0.100000  0.174015   0.574662  5.655202e-01  5.655202e-01
+ssim_y postos dentro de imagem×escala nearest interacao   -1.590000  0.119555 -13.299305  2.336283e-40  9.345134e-40
+ssim_y postos dentro de imagem×escala lanczos interacao   -0.600000  0.110611  -5.424391  5.815248e-08  1.163050e-07
+ssim_y                       Wilcoxon    edsr        x2    0.015897       NaN  -8.678332  4.016156e-18  2.409693e-17
+ssim_y                       Wilcoxon    edsr        x4    0.015839       NaN  -8.664579  4.531861e-18  2.337936e-17
+ssim_y                       Wilcoxon    edsr interacao   -0.000220       NaN  -1.973598  4.842742e-02  4.842742e-02
+ssim_y                       Wilcoxon   espcn        x2    0.006281       NaN  -7.842819  4.405429e-15  8.810858e-15
+ssim_y                       Wilcoxon   espcn        x4   -0.004238       NaN  -4.490452  7.107211e-06  1.421442e-05
+ssim_y                       Wilcoxon   espcn interacao   -0.010411       NaN  -8.331061  8.012097e-17  3.204839e-16
+ssim_y                       Wilcoxon  fsrcnn        x2    0.008580       NaN  -8.544237  1.293880e-17  3.881640e-17
+ssim_y                       Wilcoxon  fsrcnn        x4   -0.006565       NaN  -6.412476  1.431751e-10  4.295254e-10
+ssim_y                       Wilcoxon  fsrcnn interacao   -0.014964       NaN  -8.623319  6.504111e-18  3.252055e-17
+ssim_y                       Wilcoxon  lapsrn        x2    0.002642       NaN  -5.903604  3.556458e-09  3.556458e-09
+ssim_y                       Wilcoxon  lapsrn        x4    0.000117       NaN  -0.120341  9.042127e-01  9.042127e-01
+ssim_y                       Wilcoxon  lapsrn interacao   -0.003518       NaN  -4.707067  2.513067e-06  5.026134e-06
+ssim_y                       Wilcoxon nearest        x2   -0.015217       NaN  -8.657702  4.813702e-18  2.409693e-17
+ssim_y                       Wilcoxon nearest        x4   -0.033279       NaN  -8.681770  3.896560e-18  2.337936e-17
+ssim_y                       Wilcoxon nearest interacao   -0.018731       NaN  -8.681770  3.896560e-18  2.337936e-17
+ssim_y                       Wilcoxon lanczos        x2    0.004063       NaN  -8.654264  4.961042e-18  2.409693e-17
+ssim_y                       Wilcoxon lanczos        x4    0.003277       NaN  -8.461717  2.634683e-17  1.053873e-16
+ssim_y                       Wilcoxon lanczos interacao   -0.000745       NaN  -5.019954  5.168378e-07  1.550513e-06
+ lpips                  ART|principal    edsr interacao  -30.020000 22.311218  -1.345511  1.784601e-01  5.353804e-01
+ lpips                  ART|principal   espcn interacao -128.760000 22.311218  -5.771088  7.876143e-09  3.938072e-08
+ lpips                  ART|principal  fsrcnn interacao -219.030000 22.311218  -9.817034  9.510003e-23  5.706002e-22
+ lpips                  ART|principal  lapsrn interacao -124.160000 22.311218  -5.564913  2.622825e-08  1.049130e-07
+ lpips                  ART|principal nearest interacao   19.990000 22.311218   0.895962  3.702732e-01  6.637303e-01
+ lpips                  ART|principal lanczos interacao  -21.650000 22.311218  -0.970364  3.318652e-01  6.637303e-01
+ lpips              ART|sensibilidade    edsr interacao  -30.020000 24.162427  -1.242425  2.140798e-01  6.422395e-01
+ lpips              ART|sensibilidade   espcn interacao -128.760000 24.162427  -5.328935  9.879037e-08  4.939519e-07
+ lpips              ART|sensibilidade  fsrcnn interacao -219.030000 24.162427  -9.064901  1.247177e-19  7.483065e-19
+ lpips              ART|sensibilidade  lapsrn interacao -124.160000 24.162427  -5.138557  2.768566e-07  1.107427e-06
+ lpips              ART|sensibilidade nearest interacao   19.990000 24.162427   0.827318  4.080571e-01  7.404849e-01
+ lpips              ART|sensibilidade lanczos interacao  -21.650000 24.162427  -0.896019  3.702425e-01  7.404849e-01
+ lpips postos dentro de imagem×escala    edsr interacao   -1.250000  0.144485  -8.651440  5.085351e-18  2.542676e-17
+ lpips postos dentro de imagem×escala   espcn interacao    0.640000  0.111090   5.761106  8.356450e-09  3.342580e-08
+ lpips postos dentro de imagem×escala  fsrcnn interacao    1.210000  0.123085   9.830621  8.310508e-23  4.986305e-22
+ lpips postos dentro de imagem×escala  lapsrn interacao    0.410000  0.137039   2.991859  2.772839e-03  5.545678e-03
+ lpips postos dentro de imagem×escala nearest interacao   -1.130000  0.212120  -5.327174  9.975238e-08  2.992571e-07
+ lpips postos dentro de imagem×escala lanczos interacao    0.120000  0.098189   1.222131  2.216580e-01  2.216580e-01
+ lpips                       Wilcoxon    edsr        x2   -0.040779       NaN  -8.661140  4.670683e-18  2.337936e-17
+ lpips                       Wilcoxon    edsr        x4   -0.048275       NaN  -8.678332  4.016156e-18  2.337936e-17
+ lpips                       Wilcoxon    edsr interacao   -0.004788       NaN  -2.365567  1.800246e-02  3.600492e-02
+ lpips                       Wilcoxon   espcn        x2   -0.039512       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon   espcn        x4   -0.073004       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon   espcn interacao   -0.033862       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon  fsrcnn        x2   -0.044192       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon  fsrcnn        x4   -0.101498       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon  fsrcnn interacao   -0.057551       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon  lapsrn        x2   -0.039602       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon  lapsrn        x4   -0.074706       NaN  -8.681770  3.896560e-18  2.337936e-17
+ lpips                       Wilcoxon  lapsrn interacao   -0.031672       NaN  -8.654264  4.961042e-18  2.337936e-17
+ lpips                       Wilcoxon nearest        x2   -0.106634       NaN  -8.643949  5.430296e-18  2.337936e-17
+ lpips                       Wilcoxon nearest        x4   -0.102899       NaN  -7.034813  1.995289e-12  3.990579e-12
+ lpips                       Wilcoxon nearest interacao    0.001922       NaN  -1.028059  3.039220e-01  3.039220e-01
+ lpips                       Wilcoxon lanczos        x2    0.007746       NaN  -6.419352  1.368552e-10  1.368552e-10
+ lpips                       Wilcoxon lanczos        x4    0.001860       NaN  -4.555780  5.219144e-06  5.219144e-06
+ lpips                       Wilcoxon lanczos interacao   -0.006565       NaN  -6.233683  4.555947e-10  1.366784e-09

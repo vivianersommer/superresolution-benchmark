@@ -1,0 +1,28 @@
+{
+  "os": "Ubuntu 26.04.1 LTS",
+  "kernel": "7.0.0-38-generic",
+  "cpu": "13th Gen Intel(R) Core(TM) i7-13620H",
+  "cpu_count": "16",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU, 595.99.02, 6141 MiB",
+  "gpu_usage_note": "Todas as inferências rodam em CPU (OpenCV DNN backend padrão).",
+  "python": "3.14.4",
+  "opencv_build_version": "5.0.0",
+  "opencv_has_dnn_superres": true,
+  "rscript": "indisponível",
+  "packages": {
+    "opencv-contrib-python": "5.0.0.93",
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "scipy": "1.18.1",
+    "scikit-image": "0.26.0",
+    "statsmodels": "0.15.0",
+    "pingouin": "0.7.0",
+    "torch": "2.15.0+cpu",
+    "torchvision": "0.29.2+cpu",
+    "lpips": "0.1.4",
+    "matplotlib": "3.11.2",
+    "PyYAML": "6.0.3",
+    "tqdm": "4.70.1",
+    "pytest": "9.2.0"
+  }
+}

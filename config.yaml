@@ -1,0 +1,199 @@
+# Configuração central do experimento.
+# Todo parâmetro usado pelos scripts vive aqui.
+# Caminhos relativos são resolvidos a partir da raiz do repositório.
+
+seed: 42
+
+paths:
+  models_dir: models
+  models_manifest: models/MANIFEST.csv
+  results_dir: results
+  outputs_dir: outputs
+  data_dir: data
+
+# Desenho experimental (usado a partir da fase 1).
+scales: [2, 4]
+methods:
+  dl: [edsr, espcn, fsrcnn, lapsrn]
+  classic: [bicubic, nearest, lanczos]
+model_files:
+  edsr: EDSR_x{s}.pb
+  espcn: ESPCN_x{s}.pb
+  fsrcnn: FSRCNN_x{s}.pb
+  lapsrn: LapSRN_x{s}.pb
+# Interpolações clássicas: cv2.resize para exatamente s x o tamanho da LR (bicubic =
+# cv2.INTER_CUBIC, a = -0,75; ver DECISOES.md).
+classic_interpolation:
+  bicubic: INTER_CUBIC
+  nearest: INTER_NEAREST
+  lanczos: INTER_LANCZOS4
+
+# Fase 2 — degradação e reconstrução.
+reconstrucao:
+  # Redução HR -> LR por 1/s: reimplementação do imresize bicúbico do MATLAB com
+  # antialias (src/imresize_matlab.py), validada bit a bit contra o pacote EDSR.
+  downscale: matlab_imresize_bicubic_antialias
+  lr_dir: outputs/lr
+  sr_dir: outputs/sr
+  runtime_csv: results/runtime_long.csv
+  # Execuções descartadas de cada modelo antes de medir o tempo (inicialização do DNN).
+  warmup_runs: 1
+  # null = padrão do OpenCV (todas as threads); o valor efetivo é registrado no log.
+  cv2_num_threads: null
+  grid:
+    n_images: 3          # as primeiras da ordem de sorteio
+    crop_hr_px: 120      # recorte central (px da HR) mostrado na grade
+    name: grade_fase2     # salva em results/figs/ (PNG + PDF, estilo do bloco figuras)
+
+# Fase 3 — métricas e validação do pipeline.
+metricas:
+  # Y do YCbCr ITU-R BT.601 (rgb2ycbcr do MATLAB): Y = 16 + (65,481 R + 128,553 G + 24,966 B) / 255.
+  # y_round: false = Y em float64, sem arredondar para uint8 (ver DECISOES.md).
+  y_round: false
+  data_range: 255
+  # Recorte de bordas: s pixels de cada lado (s = fator de escala).
+  ssim:
+    gaussian_weights: true
+    sigma: 1.5
+    use_sample_covariance: false
+  lpips:
+    net: alex
+    version: "0.1"
+  metrics_csv: results/metrics_long.csv
+
+validacao:
+  sets: [Set5, Set14]
+  scales: [2, 4]
+  # bicubic_matlab = imresize (critério de aceitação); bicubic = cv2.INTER_CUBIC
+  # (método do experimento, informativo).
+  methods: [bicubic_matlab, bicubic, edsr, fsrcnn]
+  # A HR do benchmark recebe mod-crop por s antes da redução (como no pacote EDSR).
+  criterion_method: bicubic_matlab
+  criterion_set: Set5
+  tolerance_db: 0.1
+  # PSNR-Y médio publicado nos artigos originais (transcrito; conferir nas tabelas).
+  #  bicubic: SRCNN (Dong et al., 2016) / VDSR (Kim et al., 2016)
+  #  edsr:    EDSR single-scale (Lim et al., 2017, tabela 3; sem self-ensemble)
+  #  fsrcnn:  FSRCNN (Dong et al., 2016, tabela 3)
+  published_psnr_y:
+    Set5:
+      bicubic: {2: 33.66, 4: 28.42}
+      edsr: {2: 38.11, 4: 32.46}
+      fsrcnn: {2: 37.00, 4: 30.71}
+    Set14:
+      bicubic: {2: 30.24, 4: 26.00}
+      edsr: {2: 33.92, 4: 28.80}
+      fsrcnn: {2: 32.63, 4: 27.59}
+  per_image_csv: results/validacao_por_imagem.csv
+  table_csv: results/validacao_tabela.csv
+
+statistics:
+  alpha: 0.05
+  # Reamostragens bootstrap (IC 95% percentil); semente = seed.
+  n_boot: 10000
+  ci_level: 0.95
+  reference_method: bicubic
+  # Métricas da inferência e sentido de "melhor" (o MSE fica só no CSV bruto).
+  metrics:
+    psnr_y: {label: "PSNR-Y (dB)", higher_is_better: true}
+    ssim_y: {label: "SSIM-Y", higher_is_better: true}
+    lpips: {label: "LPIPS", higher_is_better: false}
+
+# Fase 4 — estatística descritiva.
+descritiva:
+  table_csv: results/descritiva.csv
+  median_ci_csv: results/medianas_ic.csv
+  normality_csv: results/normalidade_diferencas.csv
+  figs_dir: results/figs
+
+# Fase 5 — inferência.
+inferencia:
+  # Wilcoxon: zeros descartados (zero_method="wilcox"); p aproximado normal com correção
+  # de empates (method="approx"), n = 100.
+  wilcoxon_zero_method: wilcox
+  wilcoxon_method: approx
+  correction: holm
+  h2_methods: [edsr, espcn, fsrcnn, lapsrn]
+  # H3: contrastes "método − bicúbica" para todos os métodos não-referência (Holm por métrica).
+  h3_methods: [edsr, espcn, fsrcnn, lapsrn, nearest, lanczos]
+  mixed:
+    # Todos são tentados; usa-se o ajuste convergido de maior log-verossimilhança.
+    optimizers: [lbfgs, bfgs, nm, cg]
+    maxiter: 2000
+    # Transformação log do LPIPS se |assimetria dos resíduos| > limiar (modelo principal).
+    lpips_log_skew_threshold: 1.0
+    # Principal = (1|imagem) + (1|imagem:escala) (desenho split-plot: os 7 métodos de
+    # cada imagem × escala partem da mesma LR); sensibilidade = (1|imagem) (modelo simplificado).
+    # Interação: LRT com ajustes ML. Contrastes/EPs e comparação das estruturas: REML.
+    random_effects:
+      principal: {vc: true, label: "(1|imagem) + (1|imagem:escala)"}
+      sensibilidade: {vc: false, label: "(1|imagem)"}
+  power:
+    nobs: 100
+    power: 0.80
+    # Pior caso de Holm na família H2 (8 testes por métrica).
+    n_tests_worst_case: 8
+    wilcoxon_are: 0.955
+  outputs:
+    friedman_csv: results/inferencia_friedman.csv
+    posthoc_csv: results/inferencia_posthoc.csv
+    h2_csv: results/inferencia_h2.csv
+    h3_csv: results/inferencia_h3_contrastes.csv
+    h3_table_csv: results/inferencia_h3_tabela.csv
+    h3_table_md: results/inferencia_h3_tabela.md
+    random_structure_csv: results/inferencia_estrutura_aleatoria.csv
+    lrt_csv: results/inferencia_h3_lrt.csv
+    mixed_txt: results/modelo_misto.txt
+    art_txt: results/art_anova.txt
+    power_txt: results/poder.txt
+
+# Estilo das figuras (mesmo em todas as fases).
+figuras:
+  dpi: 300
+  formats: [png, pdf]
+  font_family: DejaVu Sans
+  font_size: 9
+  # Paleta categórica de referência (skill dataviz, modo claro), em ordem fixa por método.
+  colors:
+    edsr: "#2a78d6"
+    espcn: "#eb6834"
+    fsrcnn: "#1baf7a"
+    lapsrn: "#eda100"
+    bicubic: "#e87ba4"
+    nearest: "#008300"
+    lanczos: "#6250d6"
+  text_primary: "#0b0b0b"
+  text_secondary: "#52514e"
+  grid: "#e4e3df"
+  method_labels:
+    edsr: EDSR
+    espcn: ESPCN
+    fsrcnn: FSRCNN
+    lapsrn: LapSRN
+    bicubic: Bicúbica
+    nearest: Vizinho
+    lanczos: Lanczos
+
+# Fase 1 — dados e amostragem.
+amostragem:
+  source_dir: dataset/dataset_COCO_2000
+  source_glob: "*.jpg"
+  n_sample: 100
+  # Elegibilidade: 3 canais, não ser cinza salva em RGB (R=G=B em todos os pixels) e menor lado >= min_side (para 4x reduzida ter >= 64 px).
+  min_side: 256
+  exclude_rgb_gray: true
+  # HR cortada pela direita e por baixo até dimensões divisíveis por modcrop.
+  modcrop: 12
+  inventory_csv: data/inventario_coco.csv
+  sample_csv: data/amostra.csv
+  hr_dir: data/hr
+
+benchmarks:
+  # Pacote de teste dos autores do EDSR (Lim et al., 2017): Set5, Set14, B100, Urban100,
+  # com HR e LR_bicubic gerados pelo imresize do MATLAB.
+  url: https://cv.snu.ac.kr/research/EDSR/benchmark.tar
+  sha256: 80c21c333bbf6ceb5308b7243761f8284478274413a97b96f1d63e9045fd93e8  # download de 2026-10-29
+  download_dir: data/benchmarks/_download
+  extract_dir: data/benchmarks
+  sets: [Set5, Set14]
+  manifest_csv: data/benchmarks_manifest.csv

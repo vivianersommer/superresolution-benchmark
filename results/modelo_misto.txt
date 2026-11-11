@@ -1,0 +1,330 @@
+
+====================================================================================================
+PSNR-Y (dB)
+====================================================================================================
+
+--- resposta: original | modelo principal: (1|imagem) + (1|imagem:escala) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                    MixedLM        Dependent Variable:        y         
+No. Observations:         1400           Method:                    REML      
+No. Groups:               100            Scale:                     0.1345    
+Min. group size:          14             Log-Likelihood:            -1154.1334
+Max. group size:          14             Converged:                 Yes       
+Mean group size:          14.0                                                
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                          29.653    0.473  62.735 0.000 28.727 30.580
+C(method)[T.edsr]                   1.022    0.052  19.701 0.000  0.920  1.123
+C(method)[T.espcn]                  0.525    0.052  10.130 0.000  0.424  0.627
+C(method)[T.fsrcnn]                 0.623    0.052  12.003 0.000  0.521  0.724
+C(method)[T.lapsrn]                 0.353    0.052   6.799 0.000  0.251  0.454
+C(method)[T.nearest]               -1.183    0.052 -22.805 0.000 -1.284 -1.081
+C(method)[T.lanczos]                0.188    0.052   3.626 0.000  0.086  0.290
+C(scale)[T.4]                      -3.193    0.112 -28.468 0.000 -3.413 -2.973
+C(method)[T.edsr]:C(scale)[T.4]    -0.589    0.073  -8.029 0.000 -0.733 -0.445
+C(method)[T.espcn]:C(scale)[T.4]   -0.570    0.073  -7.768 0.000 -0.714 -0.426
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.686    0.073  -9.352 0.000 -0.830 -0.542
+C(method)[T.lapsrn]:C(scale)[T.4]  -0.229    0.073  -3.127 0.002 -0.373 -0.086
+C(method)[T.nearest]:C(scale)[T.4]  0.010    0.073   0.140 0.888 -0.133  0.154
+C(method)[T.lanczos]:C(scale)[T.4] -0.076    0.073  -1.040 0.298 -0.220  0.067
+image Var                          21.713    8.855                            
+img_scale Var                       0.495    0.207                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 189.381, gl = 6, p = 3.45e-38
+Resíduos (REML): assimetria = -1.620, curtose em excesso = 16.060
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 9.87e-06
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 6.33e-05
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 1.58e-05
+
+--- resposta: original | modelo sensibilidade: (1|imagem) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                    MixedLM        Dependent Variable:        y         
+No. Observations:         1400           Method:                    REML      
+No. Groups:               100            Scale:                     0.4008    
+Min. group size:          14             Log-Likelihood:            -1694.0979
+Max. group size:          14             Converged:                 Yes       
+Mean group size:          14.0                                                
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                          29.653    0.473  62.735 0.000 28.727 30.580
+C(method)[T.edsr]                   1.022    0.090  11.413 0.000  0.846  1.197
+C(method)[T.espcn]                  0.525    0.090   5.868 0.000  0.350  0.701
+C(method)[T.fsrcnn]                 0.623    0.090   6.953 0.000  0.447  0.798
+C(method)[T.lapsrn]                 0.353    0.090   3.939 0.000  0.177  0.528
+C(method)[T.nearest]               -1.183    0.090 -13.211 0.000 -1.358 -1.007
+C(method)[T.lanczos]                0.188    0.090   2.101 0.036  0.013  0.364
+C(scale)[T.4]                      -3.193    0.090 -35.664 0.000 -3.369 -3.018
+C(method)[T.edsr]:C(scale)[T.4]    -0.589    0.127  -4.651 0.000 -0.837 -0.341
+C(method)[T.espcn]:C(scale)[T.4]   -0.570    0.127  -4.500 0.000 -0.818 -0.322
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.686    0.127  -5.417 0.000 -0.934 -0.438
+C(method)[T.lapsrn]:C(scale)[T.4]  -0.229    0.127  -1.812 0.070 -0.478  0.019
+C(method)[T.nearest]:C(scale)[T.4]  0.010    0.127   0.081 0.935 -0.238  0.258
+C(method)[T.lanczos]:C(scale)[T.4] -0.076    0.127  -0.602 0.547 -0.324  0.172
+image Var                          21.941    5.119                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 67.082, gl = 6, p = 1.62e-12
+Resíduos (REML): assimetria = -0.250, curtose em excesso = 3.141
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 2.06e-05
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 1.34e-05
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 2.47e-05
+
+Comparação das estruturas aleatórias (original, REML): LR = 1079.93, p (fronteira) = 3.8e-237; AIC_REML 3420.2 (sensibilidade) -> 2342.3 (principal)
+
+====================================================================================================
+SSIM-Y
+====================================================================================================
+
+--- resposta: original | modelo principal: (1|imagem) + (1|imagem:escala) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                     MixedLM        Dependent Variable:        y        
+No. Observations:          1400           Method:                    REML     
+No. Groups:                100            Scale:                     0.0001   
+Min. group size:           14             Log-Likelihood:            4119.2436
+Max. group size:           14             Converged:                 Yes      
+Mean group size:           14.0                                               
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                           0.852    0.012  72.115 0.000  0.829  0.875
+C(method)[T.edsr]                   0.019    0.001  17.675 0.000  0.017  0.021
+C(method)[T.espcn]                  0.006    0.001   5.873 0.000  0.004  0.008
+C(method)[T.fsrcnn]                 0.009    0.001   8.436 0.000  0.007  0.011
+C(method)[T.lapsrn]                 0.003    0.001   2.955 0.003  0.001  0.005
+C(method)[T.nearest]               -0.016    0.001 -15.286 0.000 -0.018 -0.014
+C(method)[T.lanczos]                0.004    0.001   4.082 0.000  0.002  0.006
+C(scale)[T.4]                      -0.129    0.006 -20.940 0.000 -0.141 -0.116
+C(method)[T.edsr]:C(scale)[T.4]    -0.002    0.001  -1.416 0.157 -0.005  0.001
+C(method)[T.espcn]:C(scale)[T.4]   -0.011    0.001  -7.097 0.000 -0.014 -0.008
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.015    0.001 -10.267 0.000 -0.018 -0.012
+C(method)[T.lapsrn]:C(scale)[T.4]  -0.003    0.001  -2.093 0.036 -0.006 -0.000
+C(method)[T.nearest]:C(scale)[T.4] -0.021    0.001 -14.370 0.000 -0.024 -0.019
+C(method)[T.lanczos]:C(scale)[T.4] -0.001    0.001  -0.651 0.515 -0.004  0.002
+image Var                           0.012    0.257                            
+img_scale Var                       0.002    0.036                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 325.410, gl = 6, p = 2.92e-67
+Resíduos (REML): assimetria = -0.939, curtose em excesso = 9.076
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 4.01e-05
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 5.67e-05
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 3.78e-05
+Notas dos otimizadores: ['lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.', 'lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.', 'lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.']
+
+--- resposta: original | modelo sensibilidade: (1|imagem) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                     MixedLM        Dependent Variable:        y        
+No. Observations:          1400           Method:                    REML     
+No. Groups:                100            Scale:                     0.0010   
+Min. group size:           14             Log-Likelihood:            2505.5625
+Max. group size:           14             Converged:                 Yes      
+Mean group size:           14.0                                               
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                           0.852    0.012  72.115 0.000  0.829  0.875
+C(method)[T.edsr]                   0.019    0.005   4.092 0.000  0.010  0.028
+C(method)[T.espcn]                  0.006    0.005   1.360 0.174 -0.003  0.015
+C(method)[T.fsrcnn]                 0.009    0.005   1.953 0.051 -0.000  0.018
+C(method)[T.lapsrn]                 0.003    0.005   0.684 0.494 -0.006  0.012
+C(method)[T.nearest]               -0.016    0.005  -3.539 0.000 -0.025 -0.007
+C(method)[T.lanczos]                0.004    0.005   0.945 0.345 -0.005  0.013
+C(scale)[T.4]                      -0.129    0.005 -28.181 0.000 -0.137 -0.120
+C(method)[T.edsr]:C(scale)[T.4]    -0.002    0.006  -0.328 0.743 -0.015  0.011
+C(method)[T.espcn]:C(scale)[T.4]   -0.011    0.006  -1.643 0.100 -0.023  0.002
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.015    0.006  -2.377 0.017 -0.028 -0.003
+C(method)[T.lapsrn]:C(scale)[T.4]  -0.003    0.006  -0.484 0.628 -0.016  0.010
+C(method)[T.nearest]:C(scale)[T.4] -0.021    0.006  -3.327 0.001 -0.034 -0.009
+C(method)[T.lanczos]:C(scale)[T.4] -0.001    0.006  -0.151 0.880 -0.014  0.012
+image Var                           0.013    0.059                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 19.884, gl = 6, p = 0.0029
+Resíduos (REML): assimetria = -0.019, curtose em excesso = -0.519
+Ajuste ML completo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 1.71e-06
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 1.27e-06
+Ajuste REML completo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 1.7e-06
+
+Comparação das estruturas aleatórias (original, REML): LR = 3227.36, p (fronteira) = 0; AIC_REML -4979.1 (sensibilidade) -> -8204.5 (principal)
+
+====================================================================================================
+LPIPS
+====================================================================================================
+
+--- resposta: original | modelo principal: (1|imagem) + (1|imagem:escala) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                     MixedLM        Dependent Variable:        y        
+No. Observations:          1400           Method:                    REML     
+No. Groups:                100            Scale:                     0.0009   
+Min. group size:           14             Log-Likelihood:            2494.4322
+Max. group size:           14             Converged:                 Yes      
+Mean group size:           14.0                                               
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                           0.255    0.012  21.467 0.000  0.231  0.278
+C(method)[T.edsr]                  -0.043    0.004 -10.180 0.000 -0.052 -0.035
+C(method)[T.espcn]                 -0.039    0.004  -9.071 0.000 -0.047 -0.030
+C(method)[T.fsrcnn]                -0.043    0.004 -10.101 0.000 -0.051 -0.035
+C(method)[T.lapsrn]                -0.040    0.004  -9.439 0.000 -0.048 -0.032
+C(method)[T.nearest]               -0.107    0.004 -25.097 0.000 -0.115 -0.098
+C(method)[T.lanczos]                0.009    0.004   2.030 0.042  0.000  0.017
+C(scale)[T.4]                       0.222    0.006  36.765 0.000  0.210  0.234
+C(method)[T.edsr]:C(scale)[T.4]    -0.003    0.006  -0.515 0.606 -0.015  0.009
+C(method)[T.espcn]:C(scale)[T.4]   -0.034    0.006  -5.740 0.000 -0.046 -0.023
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.058    0.006  -9.651 0.000 -0.070 -0.046
+C(method)[T.lapsrn]:C(scale)[T.4]  -0.033    0.006  -5.489 0.000 -0.045 -0.021
+C(method)[T.nearest]:C(scale)[T.4]  0.010    0.006   1.745 0.081 -0.001  0.022
+C(method)[T.lanczos]:C(scale)[T.4] -0.007    0.006  -1.113 0.266 -0.018  0.005
+image Var                           0.012    0.063                            
+img_scale Var                       0.001    0.005                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 185.297, gl = 6, p = 2.54e-37
+Resíduos (REML): assimetria = 1.195, curtose em excesso = 12.945
+Ajuste ML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 4.56e-08
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 4.52e-06
+Ajuste REML completo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 4.74e-07
+Notas dos otimizadores: ['lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.', 'lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.', 'lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.']
+
+--- resposta: original | modelo sensibilidade: (1|imagem) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                     MixedLM        Dependent Variable:        y        
+No. Observations:          1400           Method:                    REML     
+No. Groups:                100            Scale:                     0.0014   
+Min. group size:           14             Log-Likelihood:            2316.7770
+Max. group size:           14             Converged:                 Yes      
+Mean group size:           14.0                                               
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                           0.255    0.012  21.467 0.000  0.231  0.278
+C(method)[T.edsr]                  -0.043    0.005  -8.181 0.000 -0.054 -0.033
+C(method)[T.espcn]                 -0.039    0.005  -7.289 0.000 -0.049 -0.028
+C(method)[T.fsrcnn]                -0.043    0.005  -8.117 0.000 -0.053 -0.033
+C(method)[T.lapsrn]                -0.040    0.005  -7.585 0.000 -0.050 -0.030
+C(method)[T.nearest]               -0.107    0.005 -20.168 0.000 -0.117 -0.096
+C(method)[T.lanczos]                0.009    0.005   1.631 0.103 -0.002  0.019
+C(scale)[T.4]                       0.222    0.005  41.977 0.000  0.211  0.232
+C(method)[T.edsr]:C(scale)[T.4]    -0.003    0.007  -0.414 0.679 -0.018  0.012
+C(method)[T.espcn]:C(scale)[T.4]   -0.034    0.007  -4.612 0.000 -0.049 -0.020
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.058    0.007  -7.756 0.000 -0.073 -0.043
+C(method)[T.lapsrn]:C(scale)[T.4]  -0.033    0.007  -4.411 0.000 -0.048 -0.018
+C(method)[T.nearest]:C(scale)[T.4]  0.010    0.007   1.403 0.161 -0.004  0.025
+C(method)[T.lanczos]:C(scale)[T.4] -0.007    0.007  -0.895 0.371 -0.021  0.008
+image Var                           0.013    0.050                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 123.355, gl = 6, p = 3.21e-24
+Resíduos (REML): assimetria = 0.283, curtose em excesso = 3.465
+Ajuste ML completo: otimizador lbfgs; diferença máx. de logLik entre otimizadores convergidos = 5.37e-07
+Ajuste ML aditivo: otimizador nm; diferença máx. de logLik entre otimizadores convergidos = 1.2e-06
+Ajuste REML completo: otimizador lbfgs; diferença máx. de logLik entre otimizadores convergidos = 5.63e-07
+
+Comparação das estruturas aleatórias (original, REML): LR = 355.31, p (fronteira) = 1.48e-79; AIC_REML -4601.6 (sensibilidade) -> -4954.9 (principal)
+
+--- resposta: log | modelo principal: (1|imagem) + (1|imagem:escala) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                    MixedLM         Dependent Variable:         y       
+No. Observations:         1400            Method:                     REML    
+No. Groups:               100             Scale:                      0.0094  
+Min. group size:          14              Log-Likelihood:             862.8030
+Max. group size:          14              Converged:                  Yes     
+Mean group size:          14.0                                                
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                          -1.464    0.042 -34.645 0.000 -1.547 -1.382
+C(method)[T.edsr]                  -0.185    0.014 -13.548 0.000 -0.212 -0.159
+C(method)[T.espcn]                 -0.179    0.014 -13.044 0.000 -0.205 -0.152
+C(method)[T.fsrcnn]                -0.205    0.014 -14.959 0.000 -0.232 -0.178
+C(method)[T.lapsrn]                -0.181    0.014 -13.206 0.000 -0.208 -0.154
+C(method)[T.nearest]               -0.528    0.014 -38.576 0.000 -0.555 -0.501
+C(method)[T.lanczos]                0.023    0.014   1.675 0.094 -0.004  0.050
+C(scale)[T.4]                       0.666    0.019  34.579 0.000  0.629  0.704
+C(method)[T.edsr]:C(scale)[T.4]     0.080    0.019   4.156 0.000  0.043  0.118
+C(method)[T.espcn]:C(scale)[T.4]    0.005    0.019   0.253 0.800 -0.033  0.043
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.047    0.019  -2.403 0.016 -0.084 -0.009
+C(method)[T.lapsrn]:C(scale)[T.4]   0.007    0.019   0.355 0.722 -0.031  0.045
+C(method)[T.nearest]:C(scale)[T.4]  0.314    0.019  16.206 0.000  0.276  0.352
+C(method)[T.lanczos]:C(scale)[T.4] -0.020    0.019  -1.026 0.305 -0.058  0.018
+image Var                           0.160    0.252                            
+img_scale Var                       0.009    0.016                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 411.477, gl = 6, p = 9.52e-86
+Resíduos (REML): assimetria = 1.522, curtose em excesso = 11.899
+Ajuste ML completo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 2.7e-06
+Ajuste ML aditivo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 1.73e-07
+Ajuste REML completo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 2.09e-06
+Notas dos otimizadores: ['lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.', 'lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.', 'lbfgs: The MLE may be on the boundary of the parameter space.', 'bfgs: The MLE may be on the boundary of the parameter space.', 'nm: The MLE may be on the boundary of the parameter space.', 'cg: The MLE may be on the boundary of the parameter space.']
+
+--- resposta: log | modelo sensibilidade: (1|imagem) | ajuste REML ---
+                    Mixed Linear Model Regression Results
+==============================================================================
+Model:                    MixedLM         Dependent Variable:         y       
+No. Observations:         1400            Method:                     REML    
+No. Groups:               100             Scale:                      0.0143  
+Min. group size:          14              Log-Likelihood:             691.6812
+Max. group size:          14              Converged:                  Yes     
+Mean group size:          14.0                                                
+------------------------------------------------------------------------------
+                                   Coef.  Std.Err.    z    P>|z| [0.025 0.975]
+------------------------------------------------------------------------------
+Intercept                          -1.464    0.042 -34.645 0.000 -1.547 -1.382
+C(method)[T.edsr]                  -0.185    0.017 -10.956 0.000 -0.219 -0.152
+C(method)[T.espcn]                 -0.179    0.017 -10.548 0.000 -0.212 -0.145
+C(method)[T.fsrcnn]                -0.205    0.017 -12.097 0.000 -0.238 -0.172
+C(method)[T.lapsrn]                -0.181    0.017 -10.680 0.000 -0.214 -0.148
+C(method)[T.nearest]               -0.528    0.017 -31.196 0.000 -0.561 -0.495
+C(method)[T.lanczos]                0.023    0.017   1.355 0.175 -0.010  0.056
+C(scale)[T.4]                       0.666    0.017  39.375 0.000  0.633  0.700
+C(method)[T.edsr]:C(scale)[T.4]     0.080    0.024   3.361 0.001  0.034  0.127
+C(method)[T.espcn]:C(scale)[T.4]    0.005    0.024   0.204 0.838 -0.042  0.052
+C(method)[T.fsrcnn]:C(scale)[T.4]  -0.047    0.024  -1.943 0.052 -0.093  0.000
+C(method)[T.lapsrn]:C(scale)[T.4]   0.007    0.024   0.287 0.774 -0.040  0.054
+C(method)[T.nearest]:C(scale)[T.4]  0.314    0.024  13.105 0.000  0.267  0.361
+C(method)[T.lanczos]:C(scale)[T.4] -0.020    0.024  -0.830 0.407 -0.067  0.027
+image Var                           0.164    0.204                            
+==============================================================================
+
+LRT da interação método × escala (ajustes ML): LR = 286.870, gl = 6, p = 5.31e-59
+Resíduos (REML): assimetria = 0.779, curtose em excesso = 5.023
+Ajuste ML completo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 4.95e-07
+Ajuste ML aditivo: otimizador lbfgs; diferença máx. de logLik entre otimizadores convergidos = 6.29e-07
+Ajuste REML completo: otimizador bfgs; diferença máx. de logLik entre otimizadores convergidos = 2.39e-06
+
+Comparação das estruturas aleatórias (log, REML): LR = 342.24, p (fronteira) = 1.04e-76; AIC_REML -1351.4 (sensibilidade) -> -1691.6 (principal)
+
+LPIPS — critério de transformação no modelo principal: |assimetria| original = 1.19 (> 1.0); com log = 1.52. Conclusão: log não corrige a assimetria; mantém-se a escala original.
+
+
+Resumo dos testes de razão de verossimilhança da interação (ML):
+
+metric resposta         papel             efeitos_aleatorios      LR_ML  gl            p  assimetria_residuos_REML  curtose_residuos_REML
+psnr_y original     principal (1|imagem) + (1|imagem:escala) 189.380890   6 3.445220e-38                 -1.619570              16.059844
+psnr_y original sensibilidade                     (1|imagem)  67.081753   6 1.619508e-12                 -0.250286               3.140802
+ssim_y original     principal (1|imagem) + (1|imagem:escala) 325.409833   6 2.919189e-67                 -0.938533               9.076209
+ssim_y original sensibilidade                     (1|imagem)  19.884204   6 2.903914e-03                 -0.018810              -0.518596
+ lpips original     principal (1|imagem) + (1|imagem:escala) 185.297352   6 2.542225e-37                  1.194712              12.945152
+ lpips original sensibilidade                     (1|imagem) 123.355070   6 3.214336e-24                  0.282683               3.465323
+ lpips      log     principal (1|imagem) + (1|imagem:escala) 411.477443   6 9.519899e-86                  1.521655              11.898669
+ lpips      log sensibilidade                     (1|imagem) 286.869704   6 5.313370e-59                  0.778671               5.022512
+
+Comparação das estruturas de efeitos aleatórios (REML):
+
+metric resposta ajuste  logLik_REML_sensibilidade  logLik_REML_principal     LR_REML   p_fronteira  AIC_REML_sensibilidade  AIC_REML_principal    delta_AIC  var_imagem_principal  var_imagem:escala_principal  var_residual_principal  var_imagem_sensibilidade  var_residual_sensibilidade
+psnr_y original   REML               -1694.097940           -1154.133376 1079.929129 3.803474e-237             3420.195881         2342.266752 -1077.929129             21.712937                     0.494538                0.134500                 21.941049                    0.400793
+ssim_y original   REML                2505.562540            4119.243622 3227.362163  0.000000e+00            -4979.125081        -8204.487244 -3225.362163              0.012076                     0.001827                0.000056                  0.012920                    0.001040
+ lpips original   REML                2316.777049            2494.432178  355.310259  1.478257e-79            -4601.554097        -4954.864356  -353.310259              0.012247                     0.000918                0.000902                  0.012671                    0.001396
+ lpips      log   REML                 691.681241             862.803042  342.243603  1.035687e-76            -1351.362481        -1691.606084  -340.243603              0.160083                     0.009206                0.009368                  0.164332                    0.014326

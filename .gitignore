@@ -1,0 +1,13 @@
+# ambiente
+.venv/
+__pycache__/
+.pytest_cache/
+.idea/
+
+# gerados pelos scripts
+outputs/
+data/hr/
+data/benchmarks/
+
+# arquivo compactado das imagens (as imagens estão em dataset/dataset_COCO_2000/)
+dataset/dataset_COCO_2000.zip
